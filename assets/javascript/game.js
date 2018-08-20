@@ -34,6 +34,7 @@ $(document).ready(function () {
     }
 
     function reset() {
+        gemVals = [];
         guessTotal = 0;
         goalSum = 0;
         setGemValsArray();
@@ -65,7 +66,7 @@ $(document).ready(function () {
             reset();
         }
 
-        $("#score").text("Your guess: " + guessTotal);
+        $("#score").text("Current total: " + guessTotal);
         $("#wins").text("Your wins: " + wins);
         $("#loses").text("Your loses: " + loses);
         $("#goalNum").text("Number to match: " + goalSum);
