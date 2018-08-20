@@ -9,27 +9,70 @@ var wins = 0;
 var loses = 0;
 var guessTotal = 0;
 
-function setVars() {
-    return Math.floor(Math.random() * 12) + 1;
-}
+$(document).ready(function () {
 
-for (var i = 0; i < 4; i++) {
-    gemVals.push(setVars());
-}
-
-function setGoalSum() {
-    var rand = Math.floor(Math.random() * 5);
-    for (var i = 0; i < gemVals.length; i++) {
-        goalSum += gemVals[i] * rand;
+    function setGemValsArray() {
+        for (var i = 0; i < 4; i++) {
+            gemVals.push(Math.floor(Math.random() * 12) + 1);
+            //valueGem = gemVals;
+            //$(".photo").attr("value", valueGem);
+        }
     }
-}
 
-setGoalSum();
+    function setGoalSum() {
+        for (var i = 0; i < gemVals.length; i++) {
+            var rand = Math.floor(Math.random() * 5);
+            goalSum += gemVals[i] * rand;
+        }
+    }
+
+    function setGemVals() {
+        $("#blue").attr("value", gemVals[0]);
+        $("#diamond").attr("value", gemVals[1]);
+        $("#emrald").attr("value", gemVals[2]);
+        $("#sapphire").attr("value", gemVals[3]);
+    }
+
+    function reset() {
+        guessTotal = 0;
+        goalSum = 0;
+        setGemValsArray();
+        setGemVals();
+        setGoalSum();
+        if (goalSum > 120 || goalSum < 19) {
+            setGoalSum();
+        }
+    }
+
+    reset();
+
+    console.log(gemVals);
+
+    console.log(goalSum);
+
+    $(".photo").on("click", function () {
+
+        guessTotal += parseInt($(this).attr("value"));
+        console.log(guessTotal);
+
+        if (guessTotal > goalSum) {
+            loses++;
+            reset();
+        }
+    
+        if (guessTotal === goalSum) {
+            wins++;
+            reset();
+        }
+
+        $("#score").text("Your guess: " + guessTotal);
+        $("#wins").text("Your wins: " + wins);
+        $("#loses").text("Your loses: " + loses);
+        $("#goalNum").text("Number to match: " + goalSum);
 
 
-// this should be part of game reset? 
-if (goalSum > 120) {
-    setGoalSum();
-}
+    });
 
-console.log(goalSum);
+    
+
+});
